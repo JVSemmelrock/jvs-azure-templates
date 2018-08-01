@@ -17,7 +17,7 @@
     "deploymentPrefix": {
       "type": "string",
       "metadata": {
-        "description": "Unique public DNS prefix for the deployment. The fqdn will look something like '<dnsname>.westus.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
+        "description": "Unique prefix for the deployment. This will be the bases for all named resources, and the public DNS  will be $prefix-rdgha.$location.cloudapp.azure.com"
       }
     },
     "vmSize": {
@@ -80,7 +80,7 @@
     },
     "diagStorage": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "[concat(uniquestring(resourceGroup().id, deployment().name))]",
       "metadata": {
         "description": "Storage account for VM diagnostics."
       }
@@ -104,6 +104,13 @@
       "defaultValue": "",
       "metadata": {
         "description": "URI path to custom script."
+      }
+    },
+    "scriptName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Name of custom script to pass for execution."
       }
     }
     
@@ -455,19 +462,20 @@
           "[concat('Microsoft.Compute/virtualMachines/', variables('dnsLabelPrefix1'))]"
         ],
         "properties": {
-          "publisher": "Microsoft.Azure.Extensions",
-          "type": "CustomScript",
-          "typeHandlerVersion": "2.0",
-          "autoUpgradeMinorVersion": true,
+          "publisher": "Microsoft.Compute",
+          "type": "CustomScriptExtension",
+          "typeHandlerVersion": "1.7",
+          "autoUpgradeMinorVersion":true,
           "settings": {
-            "fileUris": "[split(parameters('scriptUri'), ' ')]"
-          },
+              "fileUris": [ "[parameters('scriptFile')]" ],
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]"
+           }
+        },
           "protectedSettings": {
             "storageAccountName": "[parameters('scriptStorageAccount')]",
             "storageAccountKey": "[parameters('scriptStorageKey')]"
           }
-        }
-    },
+        },    
     {
         "type": "Microsoft.Compute/virtualMachines/extensions",
         "name": "[concat(variables('dnsLabelPrefix2'),'/','extensions')]",
@@ -477,18 +485,19 @@
           "[concat('Microsoft.Compute/virtualMachines/', variables('dnsLabelPrefix2'))]"
         ],
         "properties": {
-          "publisher": "Microsoft.Azure.Extensions",
-          "type": "CustomScript",
-          "typeHandlerVersion": "2.0",
-          "autoUpgradeMinorVersion": true,
+          "publisher": "Microsoft.Compute",
+          "type": "CustomScriptExtension",
+          "typeHandlerVersion": "1.7",
+          "autoUpgradeMinorVersion":true,
           "settings": {
-            "fileUris": "[split(parameters('scriptUri'), ' ')]"
-          },
+              "fileUris": [ "[parameters('scriptFile')]" ],
+              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]"
+           }
+        },
           "protectedSettings": {
             "storageAccountName": "[parameters('scriptStorageAccount')]",
             "storageAccountKey": "[parameters('scriptStorageKey')]"
           }
-        }
     }
   ]
 }
