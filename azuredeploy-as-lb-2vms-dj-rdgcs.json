@@ -455,31 +455,8 @@
     },
     {
         "type": "Microsoft.Compute/virtualMachines/extensions",
-        "name": "[concat(variables('dnsLabelPrefix1'),'/','extensions')]",
-        "apiVersion": "2017-03-30",
-        "location": "[parameters('location')]",
-        "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/', variables('dnsLabelPrefix1'))]"
-        ],
-        "properties": {
-          "publisher": "Microsoft.Compute",
-          "type": "CustomScriptExtension",
-          "typeHandlerVersion": "1.7",
-          "autoUpgradeMinorVersion":true,
-          "settings": {
-              "fileUris": [ "[parameters('scriptFile')]" ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]"
-           }
-        },
-          "protectedSettings": {
-            "storageAccountName": "[parameters('scriptStorageAccount')]",
-            "storageAccountKey": "[parameters('scriptStorageKey')]"
-          }
-        },    
-    {
-        "type": "Microsoft.Compute/virtualMachines/extensions",
-        "name": "[concat(variables('dnsLabelPrefix2'),'/','extensions')]",
-        "apiVersion": "2017-03-30",
+        "name": "[concat(variables('dnsLabelPrefix1'),'/',parameters('scriptName'))]",
+        "apiVersion": "2015-06-15",
         "location": "[parameters('location')]",
         "dependsOn": [
           "[concat('Microsoft.Compute/virtualMachines/', variables('dnsLabelPrefix2'))]"
@@ -490,14 +467,37 @@
           "typeHandlerVersion": "1.7",
           "autoUpgradeMinorVersion":true,
           "settings": {
-              "fileUris": [ "[parameters('scriptFile')]" ],
-              "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]"
-           }
-        },
+              "fileUris": [ "[parameters('scriptUri')]" ]             
+           },
           "protectedSettings": {
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]",
             "storageAccountName": "[parameters('scriptStorageAccount')]",
             "storageAccountKey": "[parameters('scriptStorageKey')]"
           }
-    }
+        }
+    },    
+    {
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "name": "[concat(variables('dnsLabelPrefix2'),'/',parameters('scriptName'))]",
+        "apiVersion": "2015-06-15",
+        "location": "[parameters('location')]",
+        "dependsOn": [
+          "[concat('Microsoft.Compute/virtualMachines/', variables('dnsLabelPrefix2'))]"
+        ],
+        "properties": {
+          "publisher": "Microsoft.Compute",
+          "type": "CustomScriptExtension",
+          "typeHandlerVersion": "1.7",
+          "autoUpgradeMinorVersion":true,
+          "settings": {
+              "fileUris": [ "[parameters('scriptUri')]" ]             
+          },
+          "protectedSettings": {
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]",
+            "storageAccountName": "[parameters('scriptStorageAccount')]",
+            "storageAccountKey": "[parameters('scriptStorageKey')]"
+          }
+        }
+    }    
   ]
 }
