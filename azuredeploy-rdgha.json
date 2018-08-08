@@ -16,6 +16,7 @@
     },
     "deploymentPrefix": {
       "type": "string",
+      "maxlength": 5,
       "metadata": {
         "description": "Unique prefix for the deployment. This will be the bases for all named resources, and the public DNS  will be $prefix-rdgha.$location.cloudapp.azure.com"
       }
@@ -454,7 +455,7 @@
         "apiVersion": "2015-06-15",
         "location": "[parameters('location')]",
         "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/', variables('dnsLabelPrefix2'))]"
+          "[concat('Microsoft.Compute/virtualMachines/extensions', variables('dnsLabelPrefix1'),'/joindomain'))]"
         ],
         "properties": {
           "publisher": "Microsoft.Compute",
@@ -477,7 +478,7 @@
         "apiVersion": "2015-06-15",
         "location": "[parameters('location')]",
         "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/', variables('dnsLabelPrefix2'))]"
+          "[concat('Microsoft.Compute/virtualMachines/extensions', variables('dnsLabelPrefix2'),'/joindomain'))]"
         ],
         "properties": {
           "publisher": "Microsoft.Compute",
