@@ -16,9 +16,8 @@
     },
     "deploymentPrefix": {
       "type": "string",
-      "maxlength": 5,
       "metadata": {
-        "description": "Unique prefix for the deployment. This will be the bases for all named resources, and the public DNS  will be $prefix-rdgha.$location.cloudapp.azure.com"
+        "description": "Unique prefix for the deployment. This will be the bases for all named resources, and the public DNS  will be $prefix.$location.cloudapp.azure.com"
       }
     },
     "vmSize": {
@@ -115,20 +114,20 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
     "windowsOSVersion": "2016-Datacenter",
-    "dnsLabelPrefix1": "[concat(toLower(parameters('deploymentPrefix')),'-rdgha-vm1')]",
-    "dnsLabelPrefix2": "[concat(toLower(parameters('deploymentPrefix')),'-rdgha-vm2')]",
+    "dnsLabelPrefix1": "[concat(toLower(parameters('deploymentPrefix')),'-vm1')]",
+    "dnsLabelPrefix2": "[concat(toLower(parameters('deploymentPrefix')),'-vm2')]",
     "nicName1": "[concat(variables('dnsLabelPrefix1'),'-nic')]",
     "nicName2": "[concat(variables('dnsLabelPrefix2'),'-nic')]",
-    "availabilitySetName": "[concat(parameters('deploymentPrefix'),'-RDGHA-AvlSet')]",
+    "availabilitySetName": "[concat(parameters('deploymentPrefix'),'-AvlSet')]",
     "availabilitySetId": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]",
-    "loadBalancerName": "[concat(parameters('deploymentPrefix'),'-RDGHA-LB')]",
-    "loadBalancerPipName": "[concat(parameters('deploymentPrefix'),'-RDGHA-LB-PIP')]",
-    "loadBalancerDnsPrefix": "[concat(toLower(parameters('deploymentPrefix')),'-rdgha')]",
-    "loadBalancerFeName": "[concat(parameters('deploymentPrefix'),'-RDGHA-LB-FI')]",
-    "loadBalancerBapName": "[concat(parameters('deploymentPrefix'),'-RDGHA-LB-BAP')]",
-    "loadBalancerHpName": "[concat(parameters('deploymentPrefix'),'-RDGHA-LB-RDGServiceProbe')]",
-    "loadBalancerRuleHttpsName": "[concat(parameters('deploymentPrefix'),'-RDGHA-LB-RuleHttps')]",
-    "loadBalancerRuleUdpName": "[concat(parameters('deploymentPrefix'),'-RDGHA-LB-RuleUdp')]",
+    "loadBalancerName": "[concat(parameters('deploymentPrefix'),'-LB')]",
+    "loadBalancerPipName": "[concat(parameters('deploymentPrefix'),'-LB-PIP')]",
+    "loadBalancerDnsPrefix": "[concat(toLower(parameters('deploymentPrefix')),'')]",
+    "loadBalancerFeName": "[concat(parameters('deploymentPrefix'),'-LB-FI')]",
+    "loadBalancerBapName": "[concat(parameters('deploymentPrefix'),'-LB-BAP')]",
+    "loadBalancerHpName": "[concat(parameters('deploymentPrefix'),'-LB-RDGServiceProbe')]",
+    "loadBalancerRuleHttpsName": "[concat(parameters('deploymentPrefix'),'-LB-RuleHttps')]",
+    "loadBalancerRuleUdpName": "[concat(parameters('deploymentPrefix'),'-LB-RuleUdp')]",
     "loadBalancerPipId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('loadBalancerPipName'))]",
     "loadBalancerId": "[resourceId('Microsoft.Network/loadBalancers', variables('loadBalancerName'))]",
     "loadBalancerFeId": "[concat(variables('loadBalancerId'), '/frontendIPConfigurations/', variables('loadBalancerFeName'))]",
