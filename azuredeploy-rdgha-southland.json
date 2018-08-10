@@ -454,7 +454,7 @@
         "apiVersion": "2015-06-15",
         "location": "[parameters('location')]",
         "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('dnsLabelPrefix1'),'/joindomain')]"
+           "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('dnsLabelPrefix1'),'/joindomain'))]"
         ],
         "properties": {
           "publisher": "Microsoft.Compute",
@@ -477,7 +477,7 @@
         "apiVersion": "2015-06-15",
         "location": "[parameters('location')]",
         "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/extensions/', variables('dnsLabelPrefix2'),'/joindomain')]"
+          "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('dnsLabelPrefix2'),'/joindomain'))]"
         ],
         "properties": {
           "publisher": "Microsoft.Compute",
