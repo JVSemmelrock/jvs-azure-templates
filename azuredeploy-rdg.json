@@ -116,8 +116,8 @@
     "imageOffer": "WindowsServer",
     "windowsOSVersion": "2016-Datacenter",
     "dnsLabelPrefix": "[toLower(parameters('deploymentPrefix'))]",
-    "nicName": "[concat(variables('deploymentPrefix'),'-nic')]",
-    "pipName": "[concat(variables('deploymentPrefix'),'-pip')]",
+    "nicName": "[concat(parameters('deploymentPrefix'),'-nic')]",
+    "pipName": "[concat(parameters('deploymentPrefix'),'-pip')]",
     "subnetId": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks/subnets', parameters('existingVNETName'), parameters('existingSubnetName'))]"
   },
   "resources": [
@@ -136,9 +136,9 @@
       "name": "[variables('pipName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "publicIPAllocationMethod": "static",        
+        "publicIPAllocationMethod": "Static",        
         "dnsSettings": {
-          "domainNameLabel": "[variables('deploymentPrefix')]"
+          "domainNameLabel": "[variables('dnsLabelPrefix')]"
         }
       }
     },    
@@ -170,7 +170,7 @@
     {
       "apiVersion": "2017-03-30",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('deploymentPrefix')]",
+      "name": "[variables('dnsLabelPrefix')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('diagStorage'))]",
@@ -181,7 +181,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[variables('deploymentPrefix')]",
+          "computerName": "[variables('dnsLabelPrefix')]",
           "adminUsername": "[parameters('vmAdminUsername')]",
           "adminPassword": "[parameters('vmAdminPassword')]"
         },
@@ -193,7 +193,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat(variables('deploymentPrefix'),'_OsDisk')]",
+            "name": "[concat(variables('dnsLabelPrefix'),'_OsDisk')]",
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }
@@ -207,7 +207,7 @@
         },
         "diagnosticsProfile": {
           "bootDiagnostics": {
-            "enabled": "true",
+            "enabled": "True",
             "storageUri": "[reference(concat('Microsoft.Storage/storageAccounts/', parameters('diagStorage')), '2015-06-15').primaryEndpoints.blob]"
           }
         }
@@ -216,10 +216,10 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('deploymentPrefix'),'/joindomain')]",
+      "name": "[concat(variables('dnsLabelPrefix'),'/joindomain')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('deploymentPrefix'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('dnsLabelPrefix'))]"
       ],
       "properties": {
         "publisher": "Microsoft.Compute",
@@ -240,11 +240,11 @@
     },
     {
         "type": "Microsoft.Compute/virtualMachines/extensions",
-        "name": "[concat(variables('deploymentPrefix'),'/',parameters('scriptName'))]",
+        "name": "[concat(variables('dnsLabelPrefix'),'/',parameters('scriptName'))]",
         "apiVersion": "2015-06-15",
         "location": "[parameters('location')]",
         "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/extensions', variables('deploymentPrefix'),'/joindomain'))]"
+          "[concat('Microsoft.Compute/virtualMachines/extensions', variables('dnsLabelPrefix'),'/joindomain'))]"
         ],
         "properties": {
           "publisher": "Microsoft.Compute",
