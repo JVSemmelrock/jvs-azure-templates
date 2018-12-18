@@ -86,18 +86,6 @@
         "description": "Storage account for VM diagnostics."
       }
     },
-    "scriptStorageAccount": {
-      "type": "string",
-      "metadata": {
-        "description": "Storage account for custom script."
-      }
-    },
-    "scriptStorageKey": {
-      "type": "string",
-      "metadata": {
-        "description": "Storage account key for custom script."
-      }
-    },
     "scriptUri": {
       "type": "string",
       "metadata": {
@@ -163,7 +151,7 @@
       "name": "[variables('loadBalancerPipName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "publicIPAllocationMethod": "static",        
+        "publicIPAllocationMethod": "Static",        
         "dnsSettings": {
           "domainNameLabel": "[variables('loadBalancerDnsPrefix')]"
         }
@@ -203,7 +191,7 @@
               "backendAddressPool": {
                 "id": "[variables('loadBalancerBapId')]"
               },
-              "protocol": "tcp",
+              "protocol": "Tcp",
               "frontendPort": 443,
               "backendPort": 443,
               "enableFloatingIP": false,
@@ -222,7 +210,7 @@
               "backendAddressPool": {
                 "id": "[variables('loadBalancerBapId')]"
               },
-              "protocol": "udp",
+              "protocol": "Udp",
               "frontendPort": 3391,
               "backendPort": 3391,
               "enableFloatingIP": false,
@@ -237,7 +225,7 @@
           {
             "name": "[variables('loadBalancerHpName')]",
             "properties": {
-              "protocol": "HTTP",
+              "protocol": "Http",
               "port": 80,
               "intervalInSeconds": 5,
               "numberOfProbes": 2,
