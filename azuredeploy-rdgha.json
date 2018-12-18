@@ -454,9 +454,7 @@
               "fileUris": [ "[parameters('scriptUri')]" ]             
            },
           "protectedSettings": {
-            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]",
-            "storageAccountName": "[parameters('scriptStorageAccount')]",
-            "storageAccountKey": "[parameters('scriptStorageKey')]"
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]"
           }
         }
     },    
@@ -477,9 +475,7 @@
               "fileUris": [ "[parameters('scriptUri')]" ]             
           },
           "protectedSettings": {
-            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]",
-            "storageAccountName": "[parameters('scriptStorageAccount')]",
-            "storageAccountKey": "[parameters('scriptStorageKey')]"
+            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ', parameters('scriptName'))]"
           }
         }
     }    
