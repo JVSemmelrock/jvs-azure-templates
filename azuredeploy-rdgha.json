@@ -195,7 +195,8 @@
               "frontendPort": 443,
               "backendPort": 443,
               "enableFloatingIP": false,
-              "idleTimeoutInMinutes": 15,
+              "idleTimeoutInMinutes": 30,
+              "loadDistribution": "SourceIP",
               "probe": {
                 "id": "[variables('loadBalancerHpId')]"
               }
@@ -214,7 +215,8 @@
               "frontendPort": 3391,
               "backendPort": 3391,
               "enableFloatingIP": false,
-              "idleTimeoutInMinutes": 15,
+              "idleTimeoutInMinutes": 30,
+              "loadDistribution": "SourceIP",
               "probe": {
                 "id": "[variables('loadBalancerHpId')]"
               }
@@ -229,7 +231,7 @@
               "port": 80,
               "intervalInSeconds": 5,
               "numberOfProbes": 2,
-              "requestPath": "/healthcheck.htm"
+              "requestPath": "/"
             }
           }
         ]
